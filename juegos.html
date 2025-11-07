@@ -1,0 +1,671 @@
+¡Entendido\! Procedo a aplicar el tamaño de logo grande ($100\text{px}$) al archivo `juegos.html`.
+
+Aquí tienes el código completo y modificado del archivo `juegos.html`.
+
+-----
+
+## 🎲 Código Final: `juegos.html` (Logo Ajustado a $100\text{px}$)
+
+**Instrucción:** Reemplaza el contenido de tu archivo `juegos.html` con el siguiente código:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopta con Amor - Juegos y Diversión</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos base (asume que style.css define variables como --color-primario-oscuro) */
+        
+        .juego-seccion {
+            background-color: var(--color-fondo-secundario);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        /* --- Estilos Comunes de Opciones --- */
+        .pregunta h3 { color: var(--color-primario-oscuro); }
+        .opcion, .cuestionario-opcion, .matching-item {
+            display: block; margin: 10px 0; padding: 12px;
+            border: 1px solid var(--color-primario-claro); border-radius: 5px;
+            cursor: pointer; transition: background-color 0.2s, transform 0.1s;
+        }
+        .opcion:hover, .cuestionario-opcion:hover, .matching-item:hover:not(.matched) { 
+            background-color: #F8F4F0; 
+        }
+        .pregunta { border-bottom: 1px solid var(--color-primario-claro); padding-bottom: 15px; margin-bottom: 25px; }
+
+        /* Estilos para la Retroalimentación del Cuestionario */
+        .cuestionario-feedback { margin-top: 10px; font-weight: bold; }
+        .cuestionario-feedback.correcto { color: #4CAF50; }
+        .cuestionario-feedback.incorrecto { color: var(--color-alerta); }
+        .cuestionario-explicacion { margin-top: 5px; font-style: italic; font-size: 0.9em; color: var(--color-primario-oscuro); border-left: 3px solid var(--color-secundario); padding-left: 10px; }
+
+
+        /* ---------------------------------------------------- */
+        /* --- ESTILOS JUEGO DE CONECTAR (Matching Game) --- */
+        /* ---------------------------------------------------- */
+        .matching-board-container {
+            max-width: 900px;
+            margin: 20px auto;
+            position: relative; 
+        }
+        .matching-board {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 20px;
+            position: relative; 
+            z-index: 2; /* Los ítems deben estar sobre el SVG */
+        }
+        .matching-col { padding: 10px; } 
+
+        /* Elementos del Matching Game */
+        .matching-item { 
+            font-weight: 500; 
+            text-align: left; 
+            position: relative; 
+            z-index: 3; 
+        }
+        
+        /* Círculo para conectar */
+        .matching-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            /* Círculo de conexión a la izquierda para A, a la derecha para B */
+            left: -10px; 
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--color-primario-oscuro);
+            transform: translateY(-50%);
+            transition: background-color 0.2s;
+        }
+        #columnaB .matching-item::before {
+             left: auto;
+             right: -10px;
+        }
+
+        /* Estado seleccionado: listo para hacer match */
+        .matching-item.selected {
+            background-color: var(--color-secundario); 
+            color: white;
+            font-weight: bold;
+            transform: scale(1.03);
+            border-color: var(--color-secundario);
+            box-shadow: 0 0 10px rgba(var(--color-secundario-rgb), 0.5);
+        }
+        .matching-item.selected::before {
+             background-color: white;
+             transform: translateY(-50%) scale(1.5);
+        }
+        
+        /* Estado emparejado: match exitoso */
+        .matching-item.matched {
+            background-color: #D4EDDA; 
+            color: #155724;
+            pointer-events: none; 
+            border-color: #C3E6CB;
+            opacity: 1; 
+        }
+        .matching-item.matched::before {
+             background-color: #4CAF50;
+        }
+        
+        /* SVG para dibujar las líneas */
+        #matching-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            pointer-events: none; 
+            overflow: visible; 
+        }
+        .connection-line {
+            stroke: #4CAF50; 
+            stroke-width: 3;
+            transition: stroke 0.3s;
+        }
+        /* Clase temporal para bloquear la interacción durante el feedback */
+        .matching-board.locked .matching-item {
+            pointer-events: none;
+        }
+
+
+        /* ---------------------------------------------------- */
+        /* --- ESTILOS JUEGO DE MEMORIA --- */
+        /* ---------------------------------------------------- */
+        .board-memoria {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .card-container { aspect-ratio: 1 / 1; perspective: 1000px; cursor: pointer; user-select: none; }
+        .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
+        .card-container.flipped .card-inner { transform: rotateY(180deg); }
+        .card-back {
+            background-color: var(--color-primario-oscuro); color: white;
+            position: absolute; width: 100%; height: 100%; border-radius: 8px; backface-visibility: hidden;
+            display: flex; justify-content: center; align-items: center; font-size: 1.5em; font-family: 'Lobster', cursive;
+        }
+        .card-front {
+            background-color: var(--color-fondo-secundario); color: var(--color-primario-oscuro);
+            position: absolute; width: 100%; height: 100%; border-radius: 8px; backface-visibility: hidden;
+            display: flex; justify-content: center; align-items: center; font-size: 2em;
+            border: 3px solid var(--color-secundario); transform: rotateY(180deg);
+        }
+        .card-container.matched .card-front { border-color: #4CAF50; opacity: 0.8; }
+
+        /* AJUSTE DEL TAMAÑO DEL LOGO */
+        .logo-img {
+            width: 100px; /* Tamaño del logo AUMENTADO */
+            height: 100px; /* Tamaño del logo AUMENTADO */
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+<body>
+   <header>
+    <nav class="main-nav">
+        <div class="logo">
+            <img src="https://image2url.com/images/1760561820378-4dacd090-b93c-4b7f-8b24-f23c7d6cc7a3.png" alt="Logo Adopta con Amor" class="logo-img"> 
+            <strong>Adopta con Amor</strong>
+        </div>
+        <ul>
+                <li><a href="index.html"> Adopción y Inicio</a></li>
+                <li><a href="registro_cliente.html"> Registrar Adoptante</a></li>
+                <li><a href="registro_donacion.html"> Donaciones de Dinero / Artículos</a></li>
+                <li><a href="tienda.html"> Tienda y Productos</a></li>
+                <li><a href="juegos.html"> Jueguitos</a></li>
+                <li><a href="denuncias.html"> Denuncias de Maltrato</a></li>
+                <li><a href="acerca_de.html"> Acerca de Nosotros</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2> Juegos y Diversión Animal</h2>
+        <p style="text-align: center;">¡Diviértete y aprende con nuestros desafíos temáticos!</p>
+
+        <div class="juego-seccion">
+            <h3> Conecta y Aprende: Terminología de Rescate</h3>
+            <p>Haz clic en un término de la columna izquierda y luego en su definición correcta de la columna derecha para hacer pareja.</p>
+
+            <div class="matching-board-container" id="matching-board-container">
+                <div class="matching-board" id="matching-board">
+                    <div class="matching-col" id="columnaA">
+                        </div>
+                    <div class="matching-col" id="columnaB">
+                        </div>
+                </div>
+                <svg id="matching-svg"></svg>
+            </div>
+            <div id="matching-feedback" style="text-align: center; font-weight: bold; margin-top: 15px;"></div>
+            <button id="btn-reiniciar-matching" class="btn-submit" style="width: 25%; margin: 20px auto;">Reiniciar Conexión</button>
+        </div>
+
+
+        <div class="juego-seccion">
+            <h3> Cuestionario de Rescate: Verdadero o Falso</h3>
+            <p>Pon a prueba tus conocimientos sobre el cuidado y rescate animal. ¡Selecciona Verdadero o Falso!</p>
+
+            <div class="cuestionario-container">
+                
+                <div class="pregunta" id="qA">
+                    <h3>1. ¿Verdadero o Falso? Los gatos callejeros deben ser alimentados con leche de vaca para fortalecerlos.</h3>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qA', 'Falso')">Falso</label>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qA', 'Verdadero')">Verdadero</label>
+                    <div class="cuestionario-feedback" id="feedbackA"></div>
+                </div>
+
+                <div class="pregunta" id="qB">
+                    <h3>2. ¿Verdadero o Falso? Un perro con chip de identificación es más fácil de reunir con su dueño si se pierde.</h3>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qB', 'Verdadero')">Verdadero</label>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qB', 'Falso')">Falso</label>
+                    <div class="cuestionario-feedback" id="feedbackB"></div>
+                </div>
+
+                <div class="pregunta" id="qC">
+                    <h3>3. ¿Verdadero o Falso? El chocolate es tóxico para los perros.</h3>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qC', 'Falso')">Falso</label>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qC', 'Verdadero')">Verdadero</label>
+                    <div class="cuestionario-feedback" id="feedbackC"></div>
+                </div>
+                
+                <div class="pregunta" id="qD">
+                    <h3>4. ¿Verdadero o Falso? Un perro rescatado debe ser bañado y desparasitado inmediatamente en casa.</h3>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qD', 'Falso')">Falso</label>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qD', 'Verdadero')">Verdadero</label>
+                    <div class="cuestionario-feedback" id="feedbackD"></div>
+                </div>
+
+                <div class="pregunta" id="qE">
+                    <h3>5. ¿Verdadero o Falso? Es recomendable dar sobras de comida humana a los animales de forma regular.</h3>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qE', 'Falso')">Falso</label>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qE', 'Verdadero')">Verdadero</label>
+                    <div class="cuestionario-feedback" id="feedbackE"></div>
+                </div>
+                
+                <div class="pregunta" id="qF">
+                    <h3>6. ¿Verdadero o Falso? La adopción responsable incluye la verificación de antecedentes del adoptante.</h3>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qF', 'Verdadero')">Verdadero</label>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qF', 'Falso')">Falso</label>
+                    <div class="cuestionario-feedback" id="feedbackF"></div>
+                </div>
+                
+                <div class="pregunta" id="qG">
+                    <h3>7. ¿Verdadero o Falso? El golpe de calor en mascotas solo ocurre en verano.</h3>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qG', 'Falso')">Falso</label>
+                    <label class="cuestionario-opcion" onclick="revisarCuestionario('qG', 'Verdadero')">Verdadero</label>
+                    <div class="cuestionario-feedback" id="feedbackG"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="juego-seccion">
+            <h3> Juego de Memoria: Encuentra a su Amigo</h3>
+            <p>Voltea dos cartas a la vez para encontrar a las parejas de animales idénticos.</p>
+
+            <div class="board-memoria" id="memoria-board">
+                </div>
+            <button id="btn-reiniciar-memoria" class="btn-submit" style="width: 25%; margin: 20px auto;">Reiniciar Juego</button>
+        </div>
+
+
+    </main>
+
+    <footer>
+        <p>© 2025 Adopta con Amor | Un proyecto de protección animal.</p>
+    </footer>
+
+    <script>
+        
+        // =========================================================================
+        // --- FUNCIONES COMUNES ---
+        // =========================================================================
+
+        function barajar(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        // =========================================================================
+        // --- 1. LÓGICA DEL JUEGO DE MEMORIA ---
+        // =========================================================================
+        
+        let animales = ['🐕', '🐕', '🐈', '🐈', '🐇', '🐇', '🦜', '🦜']; 
+        const tablero = document.getElementById('memoria-board');
+        let primeraCarta = null;
+        let segundaCarta = null;
+        let bloqueoTablero = false; 
+
+        function iniciarJuego() {
+            barajar(animales);
+            tablero.innerHTML = '';
+            
+            animales.forEach((animal) => {
+                const container = document.createElement('div');
+                container.classList.add('card-container');
+                container.dataset.animal = animal; 
+                container.addEventListener('click', voltearCarta);
+                
+                container.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-front">${animal}</div>
+                        <div class="card-back">Card</div>
+                    </div>
+                `;
+                tablero.appendChild(container);
+            });
+            resetearCartas();
+        }
+
+        function voltearCarta(e) {
+            if (bloqueoTablero) return;
+            const carta = e.currentTarget; 
+
+            if (carta === primeraCarta || carta.classList.contains('flipped') || carta.classList.contains('matched')) {
+                return;
+            }
+
+            carta.classList.add('flipped');
+            
+            if (!primeraCarta) {
+                primeraCarta = carta;
+            } else {
+                segundaCarta = carta;
+                bloqueoTablero = true; 
+                verificarPareja();
+            }
+        }
+
+        function verificarPareja() {
+            const esPareja = primeraCarta.dataset.animal === segundaCarta.dataset.animal;
+            
+            if (esPareja) { deshabilitarCartas(); } 
+            else { devolverCartas(); }
+        }
+
+        function deshabilitarCartas() {
+            primeraCarta.removeEventListener('click', voltearCarta);
+            segundaCarta.removeEventListener('click', voltearCarta);
+            primeraCarta.classList.add('matched');
+            segundaCarta.classList.add('matched');
+
+            resetearCartas();
+            verificarFinJuego();
+        }
+
+        function devolverCartas() {
+            setTimeout(() => {
+                primeraCarta.classList.remove('flipped');
+                segundaCarta.classList.remove('flipped');
+                resetearCartas();
+            }, 1000); 
+        }
+
+        function resetearCartas() {
+            [primeraCarta, segundaCarta, bloqueoTablero] = [null, null, false];
+        }
+
+        function verificarFinJuego() {
+            const cartasRestantes = document.querySelectorAll('#memoria-board .card-container:not(.matched)').length;
+            if (cartasRestantes === 0) {
+                setTimeout(() => {
+                    alert('¡Felicidades! ¡Has encontrado todas las parejas! 🎉');
+                }, 500);
+            }
+        }
+        
+        // =========================================================================
+        // --- 2. LÓGICA DEL JUEGO DE CONECTAR POR SELECCIÓN (CON FEEDBACK GARANTIZADO) ---
+        // =========================================================================
+
+        const matchingData = {
+            'A-Adoptante': 'Persona que se compromete a dar hogar y cuidado a un animal.',
+            'B-Acogida': 'Hogar temporal para un animal antes de ser adoptado definitivamente.',
+            'C-Esterilización': 'Procedimiento veterinario para evitar la reproducción no deseada.',
+            'D-Microchip': 'Dispositivo de identificación que se implanta bajo la piel del animal.',
+        };
+        const terminos = Object.keys(matchingData);
+        let definiciones = Object.values(matchingData);
+        
+        let seleccionA = null; 
+        let seleccionB = null; 
+        let matchesEncontrados = 0;
+        const totalMatches = terminos.length;
+
+        function iniciarMatchingGame() {
+            const colA = document.getElementById('columnaA');
+            const colB = document.getElementById('columnaB');
+            const feedback = document.getElementById('matching-feedback');
+            const svg = document.getElementById('matching-svg');
+            const board = document.getElementById('matching-board');
+            
+            colA.innerHTML = '';
+            colB.innerHTML = '';
+            svg.innerHTML = ''; 
+            board.classList.remove('locked');
+            matchesEncontrados = 0;
+            feedback.textContent = 'Selecciona un término y su definición.';
+            
+            barajar(definiciones); 
+
+            // Crear los elementos en la columna A (Términos)
+            terminos.forEach(term => {
+                const div = crearMatchingItem(term.substring(2), term, seleccionarTermino);
+                colA.appendChild(div);
+            });
+
+            // Crear los elementos en la columna B (Definiciones)
+            definiciones.forEach(def => {
+                const matchingKey = Object.keys(matchingData).find(key => matchingData[key] === def);
+                const div = crearMatchingItem(def, matchingKey, seleccionarDefinicion, 'match');
+                colB.appendChild(div);
+            });
+            
+            seleccionA = null;
+            seleccionB = null;
+        }
+        
+        function crearMatchingItem(textContent, dataId, clickHandler, dataType = 'id') {
+            const div = document.createElement('div');
+            div.classList.add('matching-item');
+            div.textContent = textContent;
+            if (dataType === 'id') {
+                 div.dataset.id = dataId;
+            } else {
+                 div.dataset.match = dataId;
+            }
+            div.addEventListener('click', clickHandler);
+            return div;
+        }
+        
+        function limpiarSeleccionA() { 
+            if (seleccionA) { seleccionA.classList.remove('selected'); } 
+        }
+        function limpiarSeleccionB() { 
+            if (seleccionB) { seleccionB.classList.remove('selected'); } 
+        }
+
+        function seleccionarTermino(e) {
+            if (document.getElementById('matching-board').classList.contains('locked')) return;
+            const item = e.currentTarget;
+            if (item.classList.contains('matched')) return;
+
+            // Si ya hay algo seleccionado en A, se deselecciona y esta es la nueva selección
+            if (seleccionA && seleccionA !== item) {
+                limpiarSeleccionA();
+            }
+            seleccionA = item;
+            seleccionA.classList.add('selected');
+            
+            verificarConexion();
+        }
+
+        function seleccionarDefinicion(e) {
+            if (document.getElementById('matching-board').classList.contains('locked')) return;
+            const item = e.currentTarget;
+            if (item.classList.contains('matched')) return;
+
+            // Si ya hay algo seleccionado en B, se deselecciona y esta es la nueva selección
+            if (seleccionB && seleccionB !== item) {
+                limpiarSeleccionB();
+            }
+            seleccionB = item;
+            seleccionB.classList.add('selected');
+
+            verificarConexion();
+        }
+
+        function verificarConexion() {
+            const feedback = document.getElementById('matching-feedback');
+            const board = document.getElementById('matching-board');
+            
+            if (seleccionA && seleccionB) {
+                // Bloquear el tablero durante la comprobación
+                board.classList.add('locked');
+
+                if (seleccionA.dataset.id === seleccionB.dataset.match) {
+                    // --- CORRECTO ---
+                    
+                    // 1. Mostrar feedback
+                    feedback.className = 'cuestionario-feedback correcto';
+                    feedback.textContent = `¡Pareja correcta! (${matchesEncontrados + 1}/${totalMatches})`;
+
+                    // 2. Marcar como emparejado (visual y lógico)
+                    seleccionA.classList.remove('selected');
+                    seleccionB.classList.remove('selected');
+                    seleccionA.classList.add('matched');
+                    seleccionB.classList.add('matched');
+                    
+                    // 3. Dibujar línea
+                    dibujarLinea(seleccionA, seleccionB);
+                    
+                    matchesEncontrados++;
+                    
+                    // 4. Desbloquear el tablero
+                    setTimeout(() => {
+                        board.classList.remove('locked');
+                        if (matchesEncontrados === totalMatches) {
+                             feedback.textContent = '¡Felicidades! Has conectado todos los términos correctamente. 🎉';
+                        }
+                    }, 500); 
+                    
+                } else {
+                    // --- INCORRECTO ---
+                    
+                    // 1. Mostrar feedback
+                    feedback.className = 'cuestionario-feedback incorrecto';
+                    feedback.textContent = '¡Pareja incorrecta! Vuelve a intentar.';
+                    
+                    // 2. Quitar las clases 'selected' después de un breve momento
+                    setTimeout(() => {
+                        limpiarSeleccionA();
+                        limpiarSeleccionB();
+                        board.classList.remove('locked');
+                    }, 1000); 
+                }
+                
+                // Reiniciar selecciones para el siguiente par
+                seleccionA = null;
+                seleccionB = null;
+            } else {
+                 feedback.textContent = 'Selecciona un elemento de cada columna.';
+            }
+        }
+
+        function dibujarLinea(itemA, itemB) {
+            const svg = document.getElementById('matching-svg');
+            const container = document.getElementById('matching-board-container');
+            
+            // Recalcular el tamaño del SVG para asegurar que cubra toda el área del contenedor
+            const containerRect = container.getBoundingClientRect();
+            svg.style.width = containerRect.width + 'px';
+            svg.style.height = containerRect.height + 'px';
+            
+            // Obtener posiciones relativas al viewport
+            const rectA = itemA.getBoundingClientRect();
+            const rectB = itemB.getBoundingClientRect();
+            
+            // Coordenadas relativas al contenedor SVG (necesitamos la posición del contenedor)
+            const parentRect = svg.getBoundingClientRect();
+
+            // Punto de inicio (centro derecho de A)
+            const x1 = rectA.right - parentRect.left - 5; 
+            const y1 = rectA.top - parentRect.top + rectA.height / 2; 
+            
+            // Punto final (centro izquierdo de B)
+            const x2 = rectB.left - parentRect.left + 5; 
+            const y2 = rectB.top - parentRect.top + rectB.height / 2; 
+            
+            // Crear el elemento de línea SVG
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute('x1', x1);
+            line.setAttribute('y1', y1);
+            line.setAttribute('x2', x2);
+            line.setAttribute('y2', y2);
+            line.classList.add('connection-line');
+            
+            svg.appendChild(line);
+        }
+
+        // Esta función es crucial para que las líneas se ajusten si el usuario hace scroll o zoom
+        window.addEventListener('resize', iniciarMatchingGame);
+        
+        // =========================================================================
+        // --- 3. LÓGICA DEL CUESTIONARIO EDUCATIVO (EXTENDIDO Y CON EXPLICACIONES) ---
+        // =========================================================================
+
+        const respuestasData = {
+            'qA': {
+                correcta: 'Falso', 
+                explicacion: 'Falso. Los gatos adultos suelen ser intolerantes a la lactosa, y la leche de vaca puede causarles problemas digestivos como diarrea. Lo ideal es darles agua fresca y alimento adecuado para gatos.'
+            },
+            'qB': {
+                correcta: 'Verdadero', 
+                explicacion: 'Verdadero. El microchip es una forma permanente e infalsificable de identificación que se escanea en clínicas y albergues, aumentando dramáticamente la posibilidad de reencuentro con el dueño.'
+            },
+            'qC': {
+                correcta: 'Verdadero', 
+                explicacion: 'Verdadero. El chocolate contiene teobromina, un estimulante que los perros metabolizan lentamente. En dosis altas, puede ser tóxico y potencialmente mortal, afectando el sistema nervioso y el corazón.'
+            },
+            'qD': {
+                correcta: 'Falso', 
+                explicacion: 'Falso. Lo primero es estabilizar al animal, proveerle agua y llevarlo al veterinario para un chequeo completo y desparasitación. El baño puede esperar y debe ser realizado con productos adecuados.'
+            },
+            'qE': {
+                correcta: 'Falso', 
+                explicacion: 'Falso. La comida humana no está balanceada para las necesidades nutricionales de los animales y muchas sobras son ricas en grasas, sales o azúcares que causan obesidad y problemas de salud graves.'
+            },
+            'qF': {
+                correcta: 'Verdadero', 
+                explicacion: 'Verdadero. La adopción responsable incluye un proceso de selección riguroso (entrevistas, visitas a domicilio) para asegurar que el ambiente sea seguro, amoroso y permanente para el animal.'
+            },
+            'qG': {
+                correcta: 'Falso', 
+                explicacion: 'Falso. Aunque es más común en verano, el golpe de calor puede ocurrir en cualquier estación si el animal está encerrado en un coche, tiene un esfuerzo físico excesivo o padece ciertas enfermedades.'
+            }
+        };
+
+        function revisarCuestionario(idPregunta, respuestaSeleccionada) {
+            const feedbackDiv = document.getElementById('feedback' + idPregunta.slice(-1));
+            const preguntaDiv = document.getElementById(idPregunta);
+            const opciones = preguntaDiv.querySelectorAll('.cuestionario-opcion');
+            
+            const data = respuestasData[idPregunta];
+            const correcta = data.correcta;
+            const esCorrecta = respuestaSeleccionada === correcta;
+
+            feedbackDiv.innerHTML = '';
+            
+            // 1. Mostrar resultado
+            if (esCorrecta) {
+                feedbackDiv.className = 'cuestionario-feedback correcto';
+                feedbackDiv.innerHTML = `¡Correcto! ✅`;
+            } else {
+                feedbackDiv.className = 'cuestionario-feedback incorrecto';
+                feedbackDiv.innerHTML = `Incorrecto. ❌ La respuesta correcta era: ${correcta}.`;
+            }
+            
+            // 2. Mostrar explicación
+            const explicacionDiv = document.createElement('div');
+            explicacionDiv.classList.add('cuestionario-explicacion');
+            explicacionDiv.textContent = `Explicación: ${data.explicacion}`;
+            feedbackDiv.appendChild(explicacionDiv);
+
+            // 3. Deshabilitar opciones
+            opciones.forEach(op => {
+                op.onclick = null;
+                op.style.opacity = 0.6;
+            });
+        }
+        
+        // =========================================================================
+        // --- INICIO AL CARGAR LA PÁGINA ---
+        // =========================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar los juegos
+            iniciarJuego();
+            iniciarMatchingGame();
+
+            // Asignar eventos a los botones de reinicio
+            document.getElementById('btn-reiniciar-memoria').addEventListener('click', iniciarJuego);
+            document.getElementById('btn-reiniciar-matching').addEventListener('click', iniciarMatchingGame);
+        });
+        
+    </script>
+</body>
+</html>

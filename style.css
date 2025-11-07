@@ -1,0 +1,278 @@
+/* ================================================= */
+/* 1. IMPORTACIÓN DE FUENTES */
+/* ================================================= */
+/* Lobster: Fuente cursiva y amigable para el texto del logo */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+/* Lora: Fuente para el cuerpo, más legible y cálida */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
+
+
+/* ================================================= */
+/* 2. VARIABLES (PALETA CAFÉ Y BEIGE ELEGANTE) */
+/* ================================================= */
+:root {
+    --color-primario-oscuro: #4E342E; /* CAFÉ MOCHA OSCURO (Headers, Texto Principal) */
+    --color-primario-claro: #A1887F; /* Marrón Rosado Suave (Acentos, Bordes) */
+    --color-secundario: #D4A373; /* CARAMELO TOSTADO (Tags, Llamadas a la Acción) */
+    --color-fondo-principal: #FAF0E6; /* BEIGE MARFIL (Fondo de página) */
+    --color-fondo-secundario: #FFFFFF; /* Blanco Cálido (Fondo de Tarjetas/Formularios) */
+    --color-texto: #3E2723; /* Marrón Espresso para Texto */
+    --color-alerta: #B71C1C; /* Rojo Terracota (Denuncias) */
+}
+
+/* ================================================= */
+/* 3. ESTILOS BASE Y ESTRUCTURALES */
+/* ================================================= */
+
+body {
+    font-family: 'Lora', serif, Arial, sans-serif; 
+    background-color: var(--color-fondo-principal); /* BEIGE MARFIL */
+    color: var(--color-texto); /* Marrón Espresso */
+    margin: 0;
+    padding-top: 60px;
+}
+
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+h2 {
+    color: var(--color-primario-oscuro); /* CAFÉ MOCHA OSCURO */
+    border-bottom: 2px solid var(--color-primario-claro); /* Marrón Rosado Suave */
+    padding-bottom: 10px;
+    margin-top: 30px;
+    font-weight: 700;
+    text-align: center; 
+}
+
+/* Header y Navegación */
+header {
+    background-color: var(--color-primario-oscuro); /* CAFÉ MOCHA OSCURO */
+    color: white;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5px 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5em;
+    color: white;
+    padding: 5px 0;
+}
+
+.logo-text {
+    font-family: 'Lobster', cursive; 
+    font-size: 1.3em;
+    line-height: 1;
+    color: white; 
+}
+
+.logo-img {
+    height: 40px; 
+    width: auto; 
+    margin-right: 10px; 
+    vertical-align: middle; 
+    border-radius: 5px; 
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 15px 12px;
+    display: block;
+    transition: background-color 0.3s;
+    font-size: 0.9em;
+}
+
+.main-nav ul li a:hover {
+    background-color: #3E2723; /* Marrón Espresso en hover */
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: var(--color-primario-claro); /* Marrón Rosado Suave */
+    color: var(--color-texto); /* Texto Marrón Oscuro */
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+/* ================================================= */
+/* 4. ESTILOS DE FORMULARIOS */
+/* ================================================= */
+
+.form-container, .info-page {
+    background-color: var(--color-fondo-secundario); /* Blanco Cálido */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 30px 0;
+}
+
+fieldset {
+    border: 1px solid var(--color-primario-claro); /* Marrón Rosado Suave */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+legend {
+    color: var(--color-secundario); /* CARAMELO TOSTADO */
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--color-texto);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="file"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--color-primario-claro); 
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #FFFDE7; /* Fondo de input más claro (Crema) */
+    color: var(--color-texto);
+}
+
+/* Botones */
+.btn-submit, .btn-accion {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--color-secundario); /* CARAMELO TOSTADO */
+    color: var(--color-primario-oscuro); /* Texto Café Oscuro en botón */
+    font-size: 1.1em;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn-submit:hover, .btn-accion:hover {
+    background-color: #C19468; /* Tono más oscuro de Caramelo en hover */
+    transform: translateY(-1px);
+}
+
+/* Botón de Alerta (para Denuncias) */
+.btn-alerta {
+    background-color: var(--color-alerta);
+    color: white;
+}
+.btn-alerta:hover {
+    background-color: #9C1414;
+}
+
+
+/* ================================================= */
+/* 5. ESTILOS DE TARJETAS (ADOPCIÓN/TIENDA) */
+/* ================================================= */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+}
+
+.item-card {
+    background-color: var(--color-fondo-secundario);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.item-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 3px solid var(--color-primario-claro); /* Borde Marrón Rosado Suave */
+}
+
+.item-info {
+    padding: 15px;
+}
+
+.item-info h3 {
+    margin-top: 0;
+    color: var(--color-primario-oscuro);
+    font-size: 1.3em;
+}
+
+.tag {
+    display: inline-block;
+    background-color: var(--color-primario-claro); /* Marrón Rosado Suave */
+    color: white; 
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.estado {
+    color: var(--color-secundario); /* CARAMELO TOSTADO */
+    font-weight: bold;
+    margin: 5px 0 10px 0;
+}
+
+/* Estilo opcional para cartas emparejadas */
+.card-container.matched .card-front {
+    /* Un color ligeramente diferente para indicar que ya fueron encontradas */
+    background-color: #ECEFF1; 
+    border-color: #A1887F; 
+}
+/* AJUSTE DEL TAMAÑO DEL LOGO (Tus estilos solicitados) */
+        .logo-img {
+            width: 100px; /* Tamaño del logo AUMENTADO */
+            height: 100px; /* Tamaño del logo AUMENTADO */
+            vertical-align: middle;
+            margin-right: 10px;
+        }

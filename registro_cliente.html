@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopta con Amor - Registrar Adoptante</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para el formulario de registro de adoptante */
+        .form-container, .historial-container {
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: var(--color-fondo-secundario, #f7f7f7);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .form-container h3, .historial-container h3 {
+             color: var(--color-primario-oscuro, #1a237e);
+             border-bottom: 2px solid var(--color-secundario, #ff7043);
+             padding-bottom: 10px;
+             margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--color-primario-oscuro, #333);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--color-primario-claro, #ccc);
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        /* Estilo para la sección de preguntas de pre-adopción */
+        .pre-adopcion-section {
+            padding: 15px;
+            border: 1px dashed var(--color-secundario, #ff7043);
+            border-radius: 8px;
+            margin-bottom: 25px;
+            background-color: #fff8f5;
+        }
+        .pre-adopcion-section h4 {
+            color: var(--color-secundario, #ff7043);
+            margin-top: 0;
+        }
+
+
+        .btn-submit {
+            background-color: var(--color-primario-oscuro, #1a237e);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            background-color: var(--color-secundario, #ff7043);
+        }
+        
+        /* Estilos del historial */
+        #historial-list {
+            list-style: none;
+            padding: 0;
+        }
+        #historial-list li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-size: 0.95em;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .registro-info {
+            flex-grow: 1;
+            padding-right: 15px;
+        }
+        .animal-name {
+            font-weight: bold;
+            color: var(--color-primario-oscuro, #1a237e);
+            font-size: 1.1em;
+        }
+        .registro-time {
+            font-style: italic;
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            display: block;
+        }
+        .btn-eliminar-individual {
+            background-color: #ccc; 
+            color: #555;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: background-color 0.3s;
+        }
+        .btn-eliminar-individual:hover {
+            background-color: #aaa;
+        }
+        .btn-limpiar {
+            background-color: #333;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            float: right;
+            transition: background-color 0.3s;
+        }
+
+        /* AJUSTE FINAL del tamaño del logo */
+        .logo-img {
+            width: 100px; /* Aumentado a 100px */
+            height: 100px; /* Aumentado a 100px */
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="https://image2url.com/images/1760561820378-4dacd090-b93c-4b7f-8b24-f23c7d6cc7a3.png" alt="Logo Adopta con Amor" class="logo-img"> 
+                <strong>Adopta con Amor</strong>
+            </div>
+            <ul>
+                <li><a href="index.html">Adopción y Inicio</a></li>
+                <li><a href="registro_cliente.html">Registrar Adoptante</a></li>
+                <li><a href="registro_donacion.html">Donaciones de Dinero / Artículos</a></li>
+                <li><a href="tienda.html">Tienda y Productos</a></li>
+                <li><a href="juegos.html">Jueguitos</a></li>
+                <li><a href="denuncias.html">Denuncias de Maltrato</a></li>
+                <li><a href="acerca_de.html">Acerca de Nosotros</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2 style="text-align: center;">✍️ Formulario de Registro para Adopción</h2>
+        <p style="text-align: center;">Completa tus datos y las preguntas de pre-adopción. ¡Este es el primer paso!</p>
+
+        <div class="form-container">
+            <h3>Datos del Futuro Adoptante</h3>
+
+            <form id="adoptante-form">
+                <div class="form-group">
+                    <label for="nombre_adoptante">Nombre Completo:</label>
+                    <input type="text" 
+                           id="nombre_adoptante" 
+                           name="nombre_adoptante" 
+                           required 
+                           pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" 
+                           onkeypress="return validateText(event)">
+                    <small>Solo se permiten letras y espacios.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefono">Teléfono de Contacto:</label>
+                    <input type="text" 
+                           id="telefono" 
+                           name="telefono" 
+                           required 
+                           inputmode="numeric"
+                           pattern="[0-9]+"
+                           onkeypress="return validateNumber(event)"
+                           placeholder="Ej: 77712345 (sin guiones ni letras)">
+                    <small>Solo se permiten números (sin guiones ni caracteres especiales).</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico:</label>
+                    <input type="email" id="correo" name="correo" required>
+                </div>
+
+                <hr style="border-color: #ddd; margin: 25px 0;">
+
+                <div class="form-group">
+                    <label for="animal_adoptar">🐶 Animal que Deseas Adoptar:</label>
+                    <select id="animal_adoptar" name="animal_adoptar" required>
+                        <option value="">-- Selecciona un animal de la lista --</option>
+                        <option value="Luna">Luna (Perro, 3 años)</option>
+                        <option value="Nala">Nala (Gato, 1 año)</option>
+                        <option value="Los 3 Mosqueteros">Los 3 Mosqueteros (Perro, 5 meses)</option>
+                        <option value="Perlita">Perlita (Gato, 2 años)</option>
+                        <option value="Necky">Necky (Perro, 4 años)</option>
+                        <option value="Sasha">Sasha (Perro, 3 años)</option>
+                        <option value="Michi">Michi (Perro, 1 año)</option>
+                        <option value="Pancho">Pancho (Perro, 3 años)</option>
+                        <option value="Otro / No sé">Otro / No sé (Quiero orientación)</option>
+                    </select>
+                    <small>Si deseas adoptar a otro animal no listado, elige "Otro / No sé".</small>
+                </div>
+
+                <div class="pre-adopcion-section">
+                    <h4>Información de Pre-Adopción</h4>
+
+                    <div class="form-group">
+                        <label for="tipo_vivienda">¿Cuál es tu tipo de vivienda?</label>
+                        <select id="tipo_vivienda" name="tipo_vivienda" required>
+                            <option value="">-- Selecciona --</option>
+                            <option value="Casa_Con_Patio">Casa con Patio/Jardín</option>
+                            <option value="Casa_Sin_Patio">Casa sin Patio (solo interiores)</option>
+                            <option value="Departamento">Departamento/Apartamento</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="otras_mascotas">¿Tienes otras mascotas en casa?</label>
+                        <select id="otras_mascotas" name="otras_mascotas" required>
+                            <option value="">-- Selecciona --</option>
+                            <option value="Si">Sí</option>
+                            <option value="No">No</option>
+                        </select>
+                        <small>Si respondiste 'Sí', especifica cuáles en el campo de 'Comentarios'.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="experiencia">¿Tienes experiencia previa con el cuidado de mascotas?</label>
+                        <select id="experiencia" name="experiencia" required>
+                            <option value="">-- Selecciona --</option>
+                            <option value="Mucha">Mucha (Toda la vida)</option>
+                            <option value="Poca">Poca (Solo en infancia)</option>
+                            <option value="Ninguna">Ninguna</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comentarios">Comentarios Adicionales (Ej: especificar otras mascotas):</label>
+                        <textarea id="comentarios" name="comentarios" rows="2" placeholder="Cualquier información relevante para el proceso de adopción."></textarea>
+                    </div>
+
+                </div>
+                
+                <button type="submit" class="btn-submit">Enviar Solicitud de Adopción</button>
+                <div class="confirm-text" id="registro-status" style="display: none; color: #4CAF50; text-align: center; font-weight: bold; margin-top: 15px;"></div>
+            </form>
+        </div>
+
+        <div class="historial-container">
+            <h3>Historial Local de Solicitudes</h3>
+            <p>Estos son los registros que has enviado desde este dispositivo.</p>
+            <button class="btn-limpiar" id="btn-limpiar-historial">Borrar TODO el Historial</button>
+            <ul id="historial-list">
+                </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 <strong>Adopta con Amor</strong> | Un proyecto de protección animal.</p>
+    </footer>
+
+    <script>
+        // --- FUNCIONES DE VALIDACIÓN ---
+
+        // Permite solo números (0-9) en el campo Teléfono
+        function validateNumber(event) {
+            const charCode = (event.which) ? event.which : event.keyCode;
+            // 48 es '0', 57 es '9'
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        }
+
+        // Permite solo letras y espacios en el campo Nombre
+        function validateText(event) {
+            const charCode = (event.which) ? event.which : event.keyCode;
+            const key = String.fromCharCode(charCode);
+            
+            // Expresión regular para letras y espacios (incluyendo caracteres acentuados)
+            const regex = new RegExp(/^[A-Za-zñÑáéíóúÁÉÍÓÚ\s]$/);
+
+            // Permitir teclas de control (tab, enter, backspace, etc.)
+            if (charCode < 32) {
+                return true;
+            }
+
+            if (!regex.test(key)) {
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('adoptante-form');
+            const historialList = document.getElementById('historial-list');
+            const btnLimpiar = document.getElementById('btn-limpiar-historial');
+            const registroStatus = document.getElementById('registro-status');
+
+            // --- FUNCIONES DE LOCAL STORAGE ---
+
+            function obtenerRegistros() {
+                const registros = localStorage.getItem('registrosAdoptanteAdoptaAmor');
+                return registros ? JSON.parse(registros) : [];
+            }
+
+            function guardarRegistros(registros) {
+                localStorage.setItem('registrosAdoptanteAdoptaAmor', JSON.stringify(registros));
+            }
+            
+            // Función para eliminar un ítem individual
+            function eliminarRegistro(timestampToDelete) {
+                let registros = obtenerRegistros();
+                const nuevoHistorial = registros.filter(registro => registro.timestamp !== timestampToDelete);
+                
+                guardarRegistros(nuevoHistorial);
+                renderizarHistorial(); 
+                
+                alert('Registro de adoptante eliminado del historial local.');
+            }
+
+            // FUNCIÓN ACTUALIZADA: Asegura que el animal adoptado se muestre en el historial
+            function renderizarHistorial() {
+                const registros = obtenerRegistros();
+                historialList.innerHTML = '';
+
+                if (registros.length === 0) {
+                    historialList.innerHTML = '<li>No hay solicitudes de adopción registradas en este navegador.</li>';
+                    btnLimpiar.style.display = 'none';
+                    return;
+                }
+                
+                btnLimpiar.style.display = 'block';
+
+                // Mostrar el historial del más reciente al más antiguo
+                [...registros].reverse().forEach(r => { 
+                    const listItem = document.createElement('li');
+                    
+                    const fecha = r.timestamp ? new Date(r.timestamp).toLocaleDateString() : 'N/A';
+                    const hora = r.timestamp ? new Date(r.timestamp).toLocaleTimeString() : 'N/A';
+                    // Usar un fallback en caso de que el animal_adoptar no exista (aunque debería)
+                    const animalNombre = r.animal_adoptar || 'Animal no especificado';
+
+                    // Contenedor de la información
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'registro-info';
+                    infoDiv.innerHTML = `
+                        <span class="animal-name">🐶 Solicitud para: ${animalNombre}</span><br>
+                        <strong>Adoptante:</strong> ${r.nombre_adoptante} | 
+                        <strong>Vivienda:</strong> ${r.tipo_vivienda.replace('_', ' ')}
+                        <span class="registro-time">📅 <strong>Fecha:</strong> ${fecha} | ⏰ <strong>Hora de Registro:</strong> ${hora}</span>
+                        <span class="registro-time">Otras Mascotas: ${r.otras_mascotas} | Exp: ${r.experiencia}</span>
+                    `;
+
+                    // Botón de eliminar
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'btn-eliminar-individual';
+                    deleteButton.textContent = 'Borrar Local';
+                    deleteButton.dataset.timestamp = r.timestamp; 
+                    
+                    deleteButton.addEventListener('click', (e) => {
+                        const ts = parseInt(e.target.dataset.timestamp);
+                        if (confirm(`¿Seguro que quieres borrar este registro de adoptante de tu historial local?`)) {
+                             eliminarRegistro(ts);
+                        }
+                    });
+
+                    listItem.appendChild(infoDiv);
+                    listItem.appendChild(deleteButton);
+                    historialList.appendChild(listItem);
+                });
+            }
+
+            // --- MANEJO DEL ENVÍO DEL FORMULARIO (Sin cambios en lógica) ---
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Validaciones adicionales antes de guardar
+                const nombreInput = document.getElementById('nombre_adoptante');
+                const telefonoInput = document.getElementById('telefono');
+                
+                if (!nombreInput.checkValidity()) {
+                    alert('Por favor, ingresa solo letras en el campo Nombre Completo.');
+                    return;
+                }
+                
+                if (!telefonoInput.checkValidity()) {
+                    alert('Por favor, ingresa solo números en el campo Teléfono de Contacto.');
+                    return;
+                }
+                
+                const animalSeleccionado = document.getElementById('animal_adoptar').value;
+                if (animalSeleccionado === '') {
+                     alert('Por favor, selecciona un animal que deseas adoptar.');
+                     return;
+                }
+                
+                const timestampActual = new Date().getTime(); 
+
+                const nuevoRegistro = {
+                    timestamp: timestampActual, 
+                    nombre_adoptante: nombreInput.value,
+                    telefono: telefonoInput.value,
+                    correo: document.getElementById('correo').value,
+                    animal_adoptar: animalSeleccionado,
+                    tipo_vivienda: document.getElementById('tipo_vivienda').value,
+                    otras_mascotas: document.getElementById('otras_mascotas').value,
+                    experiencia: document.getElementById('experiencia').value,
+                    comentarios: document.getElementById('comentarios').value,
+                };
+
+                const registros = obtenerRegistros();
+                registros.push(nuevoRegistro);
+                guardarRegistros(registros);
+
+                // Mostrar mensaje de éxito y limpiar formulario
+                registroStatus.textContent = `✅ ¡Solicitud para ${animalSeleccionado} enviada con éxito! Revisaremos tu perfil y te contactaremos.`;
+                registroStatus.style.display = 'block';
+                
+                form.reset();
+                renderizarHistorial();
+
+                // Ocultar mensaje después de 5 segundos
+                setTimeout(() => {
+                    registroStatus.style.display = 'none';
+                }, 5000);
+            });
+
+            // --- MANEJO DEL BOTÓN DE LIMPIAR HISTORIAL COMPLETO ---
+            btnLimpiar.addEventListener('click', () => {
+                if (confirm('ADVERTENCIA: ¿Estás seguro de que quieres borrar PERMANENTEMENTE TODO el historial de solicitudes de adoptante guardado en este navegador?')) {
+                    localStorage.removeItem('registrosAdoptanteAdoptaAmor');
+                    renderizarHistorial();
+                    alert('Historial de solicitudes borrado exitosamente.');
+                }
+            });
+
+            renderizarHistorial();
+        });
+    </script>
+</body>
+</html>

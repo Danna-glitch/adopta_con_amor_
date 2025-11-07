@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopta con Amor - Tienda</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos de la Tienda */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .item-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .item-info {
+            padding: 15px;
+            flex-grow: 1;
+        }
+
+        .item-info h3 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            color: var(--color-primario-oscuro, #1a237e);
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: #4CAF50; /* Verde por defecto */
+            color: white;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        .precio {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #d32f2f; /* Rojo de precio */
+            margin: 5px 0;
+        }
+
+        .descripcion {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .btn-accion {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background-color: var(--color-primario-oscuro, #1a237e);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-accion:hover {
+            background-color: var(--color-secundario, #ff7043);
+        }
+
+        /* --- Estilos del Carrito --- */
+        .cart-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: var(--color-fondo-secundario, #f7f7f7);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #cart-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #cart-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid var(--color-primario-oscuro, #1a237e);
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: right;
+        }
+        
+        .btn-checkout, .btn-clear-cart {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 1em;
+            transition: opacity 0.3s;
+        }
+        
+        .btn-checkout {
+            background-color: #4CAF50; /* Verde */
+            color: white;
+        }
+        .btn-clear-cart {
+            background-color: #f44336; /* Rojo */
+            color: white;
+        }
+        .cart-actions {
+            text-align: right;
+            margin-top: 15px;
+        }
+        
+        /* Estilo para el botón de eliminar individualmente */
+        .btn-remove-item {
+            background-color: transparent;
+            color: #f44336;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 10px;
+            padding: 5px;
+        }
+        .btn-remove-item:hover {
+            color: #d32f2f;
+        }
+
+    </style>
+</head>
+<body>
+   <header>
+    <nav class="main-nav">
+        <div class="logo">
+            <img src="https://image2url.com/images/1760561820378-4dacd090-b93c-4b7f-8b24-f23c7d6cc7a3.png" alt="Logo Adopta con Amor" class="logo-img"> 
+            <strong>Adopta con Amor</strong>
+        </div>
+        <ul>
+                <li><a href="index.html"> Adopción y Inicio</a></li>
+                <li><a href="registro_cliente.html"> Registrar Adoptante</a></li>
+                <li><a href="registro_donacion.html"> Donaciones de Dinero / Artículos</a></li>
+                <li><a href="tienda.html"> Tienda y Productos</a></li>
+                <li><a href="juegos.html"> Jueguitos</a></li>
+                <li><a href="denuncias.html"> Denuncias de Maltrato</a></li>
+                <li><a href="acerca_de.html"> Acerca de Nosotros</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2 style="text-align: center;">🛒 Tienda de Productos para Animales</h2>
+        <p style="text-align: center;">Cada compra apoya directamente a los animales de nuestro refugio. ¡Gracias por tu ayuda! La recaudación se destina a alimentación y medicinas.</p>
+
+        <section class="grid-container" id="product-list">
+            
+            <div class="item-card" data-id="1" data-nombre="Bravo baby 15 Kg" data-precio="412.00">
+                <img src="https://tse3.mm.bing.net/th/id/OIP.jVEd9ZefHMhX2aktebrJPwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Bravo baby 15 Kg" class="item-img">
+                <div class="item-info">
+                    <h3>Bravo baby 15 Kg</h3>
+                    <p class="tag">Venta</p>
+                    <p class="precio">Bs. 412.00</p>
+                    <p class="descripcion">Está elaborada con leche y cereales que ayudan a tener un sistema óseo saludable.</p>
+                    <button class="btn-accion add-to-cart">Añadir al Carrito</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-id="2" data-nombre="Juguete Interactivo Gato" data-precio="15.00">
+                <img src="https://m.media-amazon.com/images/I/71FvoAdecdL._AC_.jpg" alt="Juguete Interactivo para Gatos" class="item-img">
+                <div class="item-info">
+                    <h3>Juguetes Interactivos</h3>
+                    <p class="tag">Venta</p>
+                    <p class="precio">Bs. 15.00</p>
+                    <p class="descripcion">Ideal para estimular el instinto de caza de tu gato.</p>
+                    <button class="btn-accion add-to-cart">Añadir al Carrito</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-id="3" data-nombre="Cama Acolchada Extra Suave" data-precio="50.00">
+                <img src="https://richmedia.channeladvisor.com/ImageDelivery/imageService?profileId=52000717&imageID=113157&recipeId=243" alt="Cama Suave para Mascotas" class="item-img">
+                <div class="item-info">
+                    <h3>Cama Acolchada Extra Suave</h3>
+                    <p class="tag">Venta</p>
+                    <p class="precio">Bs. 50.00</p>
+                    <p class="descripcion">Proporciona un descanso cálido y seguro.</p>
+                    <button class="btn-accion add-to-cart">Añadir al Carrito</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-id="4" data-nombre="Arena Sanitaria Aglomerante (10kg)" data-precio="80.00">
+                <img src="https://arenaparamascotas.cl/wp-content/uploads/2023/01/todo.jpg" alt="Bolsa de Arena para Gato" class="item-img">
+                <div class="item-info">
+                    <h3>Arena Sanitaria Aglomerante (10kg)</h3>
+                    <p class="tag">Venta</p>
+                    <p class="precio">Bs. 80.00</p>
+                    <p class="descripcion">Control de olor superior para el hogar.</p>
+                    <button class="btn-accion add-to-cart">Añadir al Carrito</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-id="5" data-nombre="Botikin Básico de Primeros Auxilios" data-precio="200.00">
+                <img src="https://tse3.mm.bing.net/th/id/OIP.KiP6xRh9uY5BxV0stZQNhgHaE7?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Kit de Primeros Auxilios" class="item-img">
+                <div class="item-info">
+                    <h3>Botikin Básico de Primeros Auxilios</h3>
+                    <p class="tag">Venta</p>
+                    <p class="precio">Bs. 200.00</p>
+                    <p class="descripcion">Esencial para emergencias en casa y paseos.</p>
+                    <button class="btn-accion add-to-cart">Añadir al Carrito</button>
+                </div>
+            </div>
+            
+            <div class="item-card">
+                <img src="https://i.etsystatic.com/29474275/r/il/088c52/5451780150/il_600x600.5451780150_5wtd.jpg" alt="Correas" class="item-img">
+                <div class="item-info">
+                    <h3>Correa y Collar Ajustable</h3>
+                    <p class="tag" style="background-color: var(--color-primario-claro);">Donación</p>
+                    <p class="precio" style="color: var(--color-secundario);">Artículo donado</p>
+                    <p class="descripcion">Artículos donados. Disponibles para adoptantes.</p>
+                    <a href="#" class="btn-accion" style="background-color: #6c757d;">Ver Disponibilidad</a>
+                </div>
+            </div>
+
+            <div class="item-card" data-id="7" data-nombre="Snacks de Entrenamiento Naturales" data-precio="50.00">
+                <img src="https://img.grouponcdn.com/deal/FwJj5Wn2j6zgtU6ZVGJjmDtUbuT/Fw-960x576/v1/c870x524.jpg" alt="Snacks para Entrenamiento" class="item-img">
+                <div class="item-info">
+                    <h3>Snacks de Entrenamiento Naturales</h3>
+                    <p class="tag">Venta</p>
+                    <p class="precio">Bs. 50.00</p>
+                    <p class="descripcion">Premios saludables bajos en grasa.</p>
+                    <button class="btn-accion add-to-cart">Añadir al Carrito</button>
+                </div>
+            </div>
+            
+        </section>
+        
+        <div class="cart-container">
+            <h2 style="text-align: center;">🛒 Tu Carrito de Compras</h2>
+            <ul id="cart-list">
+                </ul>
+            
+            <div class="cart-total" id="cart-total">
+                </div>
+            
+            <div class="cart-actions">
+                 <button class="btn-clear-cart" id="clear-cart">Vaciar Carrito</button>
+                 <button class="btn-checkout">Proceder al Pago (Simulado)</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Adopta con Amor | Un proyecto de protección animal.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const productList = document.getElementById('product-list');
+            const cartList = document.getElementById('cart-list');
+            const cartTotalElement = document.getElementById('cart-total');
+            const clearCartButton = document.getElementById('clear-cart');
+
+            // --- Funciones de LocalStorage ---
+
+            function getCart() {
+                const cart = localStorage.getItem('adoptaConAmorCart');
+                return cart ? JSON.parse(cart) : [];
+            }
+
+            function saveCart(cart) {
+                localStorage.setItem('adoptaConAmorCart', JSON.stringify(cart));
+            }
+
+            // --- Funciones del Carrito ---
+
+            function calculateTotal(cart) {
+                let total = 0;
+                cart.forEach(item => {
+                    // Aseguramos que el precio sea un número y lo multiplicamos por la cantidad
+                    total += parseFloat(item.precio) * item.cantidad;
+                });
+                return total;
+            }
+
+            function renderCart() {
+                const cart = getCart();
+                cartList.innerHTML = '';
+                
+                if (cart.length === 0) {
+                    cartList.innerHTML = '<li>El carrito está vacío. ¡Añade productos para empezar a apoyar!</li>';
+                    cartTotalElement.textContent = 'Total: Bs. 0.00';
+                    return;
+                }
+
+                cart.forEach((item, index) => {
+                    const listItem = document.createElement('li');
+                    const subtotal = (parseFloat(item.precio) * item.cantidad).toFixed(2);
+                    
+                    listItem.innerHTML = `
+                        <div>
+                            ${item.nombre} (x${item.cantidad}) - Bs. ${item.precio} c/u
+                            <strong>(Subtotal: Bs. ${subtotal})</strong>
+                        </div>
+                        <button class="btn-remove-item" data-id="${item.id}">X</button>
+                    `;
+                    cartList.appendChild(listItem);
+                });
+
+                const total = calculateTotal(cart);
+                cartTotalElement.textContent = `Total: Bs. ${total.toFixed(2)}`;
+            }
+            
+            function addToCart(productId, name, price) {
+                let cart = getCart();
+                const existingItem = cart.find(item => item.id === productId);
+
+                if (existingItem) {
+                    existingItem.cantidad += 1;
+                } else {
+                    cart.push({ id: productId, nombre: name, precio: price, cantidad: 1 });
+                }
+
+                saveCart(cart);
+                renderCart();
+                alert(`"${name}" añadido al carrito.`);
+            }
+
+            function removeFromCart(productId) {
+                let cart = getCart();
+                
+                // Filtramos el carrito para excluir el item con ese ID
+                const newCart = cart.filter(item => item.id !== productId);
+                
+                saveCart(newCart);
+                renderCart();
+            }
+
+            function clearCart() {
+                 if (confirm('¿Estás seguro de que deseas vaciar el carrito de compras?')) {
+                     saveCart([]);
+                     renderCart();
+                     alert('Carrito vaciado.');
+                 }
+            }
+
+            // --- Event Listeners ---
+
+            // 1. Añadir al carrito
+            productList.addEventListener('click', (e) => {
+                const button = e.target.closest('.add-to-cart');
+                if (button) {
+                    const card = button.closest('.item-card');
+                    const id = card.dataset.id;
+                    const name = card.dataset.nombre;
+                    const price = card.dataset.precio;
+                    
+                    addToCart(id, name, price);
+                }
+            });
+            
+            // 2. Eliminar ítem individualmente (delegación)
+            cartList.addEventListener('click', (e) => {
+                const button = e.target.closest('.btn-remove-item');
+                if (button) {
+                    const id = button.dataset.id;
+                    removeFromCart(id);
+                }
+            });
+
+            // 3. Vaciar carrito completo
+            clearCartButton.addEventListener('click', clearCart);
+            
+            // 4. Cargar el carrito al iniciar
+            renderCart();
+        });
+    </script>
+</body>
+</html>

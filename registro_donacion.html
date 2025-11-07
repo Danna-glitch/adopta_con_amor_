@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopta con Amor - Registro de Donación</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* AJUSTE DEL TAMAÑO DEL LOGO */
+        .logo-img {
+            width: 100px; /* Tamaño del logo AUMENTADO */
+            height: 100px; /* Tamaño del logo AUMENTADO */
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        /* Ajustar la altura del header para que el logo quepa bien */
+        header {
+            padding: 10px 0; 
+        }
+
+        /* Opcional: Aumentar el texto al lado del logo */
+        .main-nav .logo strong {
+            font-size: 1.5em; 
+        }
+
+        /* Estilos específicos para el formulario de donación y el historial */
+        .form-container, .qr-container, .historial-container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: var(--color-fondo-secundario, #f7f7f7);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--color-primario-oscuro, #333);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--color-primario-claro, #ccc);
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .btn-submit {
+            background-color: var(--color-primario-oscuro, #1a237e);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            background-color: var(--color-secundario, #ff7043);
+        }
+        
+        /* Estilos del QR y la confirmación */
+        .qr-container {
+            display: none; 
+        }
+
+        .qr-container h3, .historial-container h3 {
+             color: var(--color-primario-oscuro, #1a237e);
+             border-bottom: 2px solid var(--color-secundario, #ff7043);
+             padding-bottom: 10px;
+             margin-bottom: 20px;
+        }
+        .qr-image {
+            display: block;
+            max-width: 300px;
+            height: auto;
+            margin: 20px auto;
+            border: 5px solid white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .confirm-text {
+            text-align: center;
+            font-size: 1.1em;
+            color: #4CAF50;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Estilos del historial de donaciones */
+        #historial-list {
+            list-style: none;
+            padding: 0;
+        }
+        #historial-list li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-size: 0.95em;
+            /* Flexbox para alinear el botón de eliminar a la derecha */
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .donacion-info {
+            flex-grow: 1; /* Permite que la información ocupe el espacio restante */
+        }
+        .donacion-tipo {
+            font-weight: bold;
+            color: var(--color-secundario, #ff7043);
+            margin-right: 10px;
+        }
+        .donacion-time {
+            font-style: italic;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            display: block;
+        }
+        .btn-eliminar-individual {
+            background-color: #f44336; /* Rojo */
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            margin-left: 15px;
+            transition: background-color 0.3s;
+        }
+        .btn-eliminar-individual:hover {
+            background-color: #d32f2f;
+        }
+        .btn-limpiar {
+            background-color: var(--color-alerta, #d32f2f);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            float: right;
+            transition: background-color 0.3s;
+        }
+        .btn-limpiar:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="https://image2url.com/images/1760561820378-4dacd090-b93c-4b7f-8b24-f23c7d6cc7a3.png" alt="Logo Adopta con Amor" class="logo-img"> 
+                <strong>Adopta con Amor</strong>
+            </div>
+            <ul>
+                <li><a href="index.html">Adopción y Inicio</a></li>
+                <li><a href="registro_cliente.html">Registrar Adoptante</a></li>
+                <li><a href="registro_donacion.html">Donaciones de Dinero / Artículos</a></li>
+                <li><a href="tienda.html">Tienda y Productos</a></li>
+                <li><a href="juegos.html">Jueguitos</a></li>
+                <li><a href="denuncias.html">Denuncias de Maltrato</a></li>
+                <li><a href="acerca_de.html">Acerca de Nosotros</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2 style="text-align: center;"> Registro de Donaciones y Métodos de Pago</h2>
+        <p style="text-align: center;"><strong> Tu apoyo financiero o material es vital para el rescate y cuidado de nuestros animales.</strong> </p>
+        
+        <div class="qr-container" id="qr-section">
+            <h3>Pagar Donación Rápida por Código QR</h3>
+            <p style="text-align: center;">Escanea el siguiente código para realizar una transferencia directa. Una vez pagado, por favor, <strong> registra la donación abajo</strong> .</p>
+            
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" 
+                 alt="Código QR para pago de donación" 
+                 class="qr-image">
+            
+            <p style="text-align: center; font-style: italic; color: #666;">El QR te llevará a nuestra cuenta de pago oficial.</p>
+        </div>
+
+
+        <div class="form-container">
+            <h3>Registrar Nueva Donación</h3>
+            <p>Por favor, registra tu donación <strong>después de haber realizado el pago o la entrega</strong> para mantener un seguimiento. La fecha y hora se registrarán automáticamente.</p>
+
+            <form id="donation-form">
+                <div class="form-group">
+                    <label for="nombre_donante">Nombre Completo:</label>
+                    <input type="text" id="nombre_donante" name="nombre_donante" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tipo_donacion">Tipo de Donación:</label>
+                    <select id="tipo_donacion" name="tipo_donacion" required>
+                        <option value="">-- Selecciona el tipo --</option>
+                        <option value="Dinero_QR">Dinero (Pago con QR)</option>
+                        <option value="Dinero_Otros">Dinero (Transferencia/Efectivo)</option>
+                        <option value="Articulo">Artículo o Suministro</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="monto_group" style="display: none;">
+                    <label for="monto">Monto Donado (Moneda local, ej: Bs/USD):</label>
+                    <input type="text" id="monto" name="monto" placeholder="Ej: 50.00 Bs">
+                </div>
+
+                <div class="form-group" id="articulo_group" style="display: none;">
+                    <label for="articulo">Descripción del Artículo Donado:</label>
+                    <textarea id="articulo" name="articulo" rows="2" placeholder="Ej: 1 saco de comida para perro adulto, 3 mantas"></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit">Guardar Donación en Historial</button>
+                <div class="confirm-text" id="donation-status" style="display: none;"></div>
+            </form>
+        </div>
+
+        <div class="historial-container">
+            <h3>Historial Local de Donaciones</h3>
+            <p>Puedes eliminar registros individuales o borrar todo el historial.</p>
+            <button class="btn-limpiar" id="btn-limpiar-historial">Borrar Historial Completo</button>
+            <ul id="historial-list">
+                </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 <strong>Adopta con Amor</strong> | Un proyecto de protección animal.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('donation-form');
+            const tipoDonacion = document.getElementById('tipo_donacion');
+            const montoGroup = document.getElementById('monto_group');
+            const articuloGroup = document.getElementById('articulo_group');
+            const qrSection = document.getElementById('qr-section');
+            const historialList = document.getElementById('historial-list');
+            const btnLimpiar = document.getElementById('btn-limpiar-historial');
+            const donationStatus = document.getElementById('donation-status');
+
+            // --- FUNCIÓN PARA MOSTRAR/OCULTAR CAMPOS Y QR ---
+            const updateFormVisibility = () => {
+                const selectedValue = tipoDonacion.value;
+
+                // 1. Mostrar/Ocultar campos de Monto/Artículo
+                if (selectedValue.startsWith('Dinero')) {
+                    montoGroup.style.display = 'block';
+                    articuloGroup.style.display = 'none';
+                    document.getElementById('monto').setAttribute('required', 'required');
+                    document.getElementById('articulo').removeAttribute('required');
+                } else if (selectedValue === 'Articulo') {
+                    montoGroup.style.display = 'none';
+                    montoGroup.style.display = 'none';
+                    articuloGroup.style.display = 'block';
+                    document.getElementById('articulo').setAttribute('required', 'required');
+                    document.getElementById('monto').removeAttribute('required');
+                } else {
+                    montoGroup.style.display = 'none';
+                    articuloGroup.style.display = 'none';
+                    document.getElementById('monto').removeAttribute('required');
+                    document.getElementById('articulo').removeAttribute('required');
+                }
+
+                // 2. Mostrar/Ocultar el QR
+                if (selectedValue === 'Dinero_QR') {
+                    qrSection.style.display = 'block';
+                } else {
+                    qrSection.style.display = 'none';
+                }
+            };
+
+            tipoDonacion.addEventListener('change', updateFormVisibility);
+            updateFormVisibility(); 
+
+            // --- FUNCIONES DE LOCAL STORAGE Y RENDERIZADO ---
+
+            function obtenerDonaciones() {
+                const donaciones = localStorage.getItem('donacionesAdoptaAmor');
+                return donaciones ? JSON.parse(donaciones) : [];
+            }
+
+            function guardarDonaciones(donaciones) {
+                localStorage.setItem('donacionesAdoptaAmor', JSON.stringify(donaciones));
+            }
+            
+            // Función para eliminar un ítem individual
+            function eliminarDonacion(timestampToDelete) {
+                let donaciones = obtenerDonaciones();
+                // Filtramos la lista para quedarnos solo con las donaciones que NO coinciden con el timestamp
+                const nuevoHistorial = donaciones.filter(dona => dona.timestamp !== timestampToDelete);
+                
+                guardarDonaciones(nuevoHistorial);
+                renderizarHistorial(); // Volvemos a dibujar la lista actualizada
+                
+                alert('Donación eliminada con éxito.');
+            }
+
+            function renderizarHistorial() {
+                const donaciones = obtenerDonaciones();
+                historialList.innerHTML = '';
+
+                if (donaciones.length === 0) {
+                    historialList.innerHTML = '<li>Aún no has registrado ninguna donación en este navegador.</li>';
+                    btnLimpiar.style.display = 'none';
+                    return;
+                }
+                
+                btnLimpiar.style.display = 'block';
+
+                // Usamos una copia invertida para mostrar lo más reciente primero
+                [...donaciones].reverse().forEach(dona => { 
+                    const listItem = document.createElement('li');
+                    let detalle = '';
+                    let tipoTexto = '';
+
+                    if (dona.tipo_donacion.startsWith('Dinero')) {
+                        tipoTexto = dona.tipo_donacion === 'Dinero_QR' ? 'Dinero (QR)' : 'Dinero (Otros)';
+                        detalle = `Monto: ${dona.monto}`;
+                    } else {
+                        tipoTexto = 'Artículo';
+                        detalle = `Artículo: ${dona.articulo}`;
+                    }
+                    
+                    const fecha = dona.timestamp ? new Date(dona.timestamp).toLocaleDateString() : 'N/A';
+                    const hora = dona.timestamp ? new Date(dona.timestamp).toLocaleTimeString() : 'N/A';
+
+                    // Contenedor de la información
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'donacion-info';
+                    infoDiv.innerHTML = `
+                        <span class="donacion-tipo">[${tipoTexto}]</span>
+                        ${detalle} | 
+                        Donante: ${dona.nombre_donante} 
+                        <span class="donacion-time">📅 <strong>Fecha:</strong> ${fecha} | ⏰ <strong>Hora:</strong> ${hora}</span>
+                    `;
+
+                    // Botón de eliminar
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'btn-eliminar-individual';
+                    deleteButton.textContent = 'Eliminar';
+                    // Asignamos el timestamp como identificador para la eliminación
+                    deleteButton.dataset.timestamp = dona.timestamp; 
+                    
+                    deleteButton.addEventListener('click', (e) => {
+                        const ts = parseInt(e.target.dataset.timestamp);
+                        if (confirm(`¿Seguro que quieres eliminar el registro de donación de ${dona.nombre_donante}?`)) {
+                             eliminarDonacion(ts);
+                        }
+                    });
+
+                    listItem.appendChild(infoDiv);
+                    listItem.appendChild(deleteButton);
+                    historialList.appendChild(listItem);
+                });
+            }
+
+            // --- MANEJO DEL ENVÍO DEL FORMULARIO ---
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const tipo = tipoDonacion.value;
+                if (tipo === '') {
+                     alert('Por favor, selecciona un tipo de donación.');
+                     return;
+                }
+                
+                const timestampActual = new Date().getTime(); 
+
+                const nuevaDonacion = {
+                    // Usamos un identificador único (timestamp)
+                    timestamp: timestampActual, 
+                    nombre_donante: document.getElementById('nombre_donante').value,
+                    tipo_donacion: tipo,
+                    monto: tipo.startsWith('Dinero') ? document.getElementById('monto').value : null,
+                    articulo: tipo === 'Articulo' ? document.getElementById('articulo').value : null,
+                };
+
+                const donaciones = obtenerDonaciones();
+                donaciones.push(nuevaDonacion);
+                guardarDonaciones(donaciones);
+
+                // Mostrar mensaje de éxito y limpiar formulario
+                donationStatus.textContent = '✅ ¡Donación registrada localmente con éxito!';
+                donationStatus.style.display = 'block';
+                donationStatus.className = 'confirm-text';
+                
+                form.reset();
+                updateFormVisibility(); // Resetea la vista y oculta el QR
+                renderizarHistorial();
+
+                // Ocultar mensaje después de 3 segundos
+                setTimeout(() => {
+                    donationStatus.style.display = 'none';
+                }, 3000);
+            });
+
+            // --- MANEJO DEL BOTÓN DE LIMPIAR HISTORIAL COMPLETO ---
+            btnLimpiar.addEventListener('click', () => {
+                if (confirm('¿Estás seguro de que quieres borrar PERMANENTEMENTE todo tu historial de donaciones guardado en este navegador?')) {
+                    localStorage.removeItem('donacionesAdoptaAmor');
+                    renderizarHistorial();
+                    alert('Historial de donaciones borrado exitosamente.');
+                }
+            });
+
+            renderizarHistorial();
+        });
+    </script>
+</body>
+</html>

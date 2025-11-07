@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopta con Amor - Denuncias de Maltrato</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para Denuncias */
+        .form-container, .historial-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: var(--color-fondo-secundario, #f7f7f7);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .form-container h3, .historial-container h3 {
+             color: var(--color-alerta, #d32f2f); /* Rojo para la sección de denuncias */
+             border-bottom: 2px solid var(--color-alerta, #d32f2f);
+             padding-bottom: 10px;
+             margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--color-primario-oscuro, #333);
+        }
+
+        .form-group input[type="text"], 
+        .form-group input[type="email"], 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--color-primario-claro, #ccc);
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .btn-submit {
+            background-color: var(--color-alerta, #f44336); /* Rojo de Alerta */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            background-color: #d32f2f;
+        }
+        
+        /* Estilos del historial de denuncias */
+        #historial-list {
+            list-style: none;
+            padding: 0;
+        }
+        #historial-list li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-size: 0.95em;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .denuncia-info {
+            flex-grow: 1;
+            padding-right: 15px;
+        }
+        .denuncia-tipo {
+            font-weight: bold;
+            color: var(--color-alerta, #d32f2f);
+            margin-right: 10px;
+        }
+        .denuncia-time {
+            font-style: italic;
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        /* Botones de acción */
+        .btn-eliminar-individual {
+            background-color: #ccc; 
+            color: #555;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: background-color 0.3s;
+        }
+        .btn-eliminar-individual:hover {
+            background-color: #aaa;
+        }
+        .btn-limpiar {
+            background-color: #333;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            float: right;
+            transition: background-color 0.3s;
+        }
+        .btn-limpiar:hover {
+            background-color: #000;
+        }
+        /* AJUSTE DEL TAMAÑO DEL LOGO */
+        .logo-img {
+            width: 100px; /* Tamaño del logo AUMENTADO */
+            height: 100px; /* Tamaño del logo AUMENTADO */
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+    </style>
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <img src="https://image2url.com/images/1760561820378-4dacd090-b93c-4b7f-8b24-f23c7d6cc7a3.png" alt="Logo Adopta con Amor" class="logo-img"> 
+                <strong>Adopta con Amor</strong>
+            </div>
+            <ul>
+                <li><a href="index.html">Adopción y Inicio</a></li>
+                <li><a href="registro_cliente.html">Registrar Adoptante</a></li>
+                <li><a href="registro_donacion.html">Donaciones de Dinero / Artículos</a></li>
+                <li><a href="tienda.html">Tienda y Productos</a></li>
+                <li><a href="juegos.html">Jueguitos</a></li>
+                <li><a href="denuncias.html">Denuncias de Maltrato</a></li>
+                <li><a href="acerca_de.html">Acerca de Nosotros</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <h2 style="text-align: center;"> Denuncias de Maltrato Animal</h2>
+        <p style="text-align: center; color: #d32f2f; font-weight: bold;">¡Tu reporte es confidencial y vital! Actuaremos lo más pronto posible.</p>
+
+        <div class="form-container">
+            <h3>Registrar Nueva Denuncia (Local)</h3>
+            <p>La fecha y hora de este registro se guardarán automáticamente.</p>
+
+            <form id="denuncia-form">
+                
+                <div class="form-group">
+                    <label for="tipo_maltrato">Tipo de Maltrato:</label>
+                    <select id="tipo_maltrato" name="tipo_maltrato" required>
+                        <option value="">-- Seleccione el tipo --</option>
+                        <option value="Abandono">Abandono</option>
+                        <option value="Negligencia">Negligencia (Falta de comida/agua/higiene)</option>
+                        <option value="Agresion_Fisica">Agresión Física o Violencia</option>
+                        <option value="Explotacion">Explotación o Uso Ilegal</option>
+                        <option value="Otro">Otro (Especificar en descripción)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="direccion_incidente">Dirección o Lugar Exacto del Incidente:</label>
+                    <input type="text" id="direccion_incidente" name="direccion_incidente" required placeholder="Ej: Calle 3, Barrio Norte, frente al supermercado">
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Descripción Detallada del Incidente:</label>
+                    <textarea id="descripcion" name="descripcion" rows="4" required placeholder="Describa el animal, lo que vio, y la frecuencia del maltrato."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contacto_denunciante">Contacto de Denunciante (Opcional, solo para seguimiento):</label>
+                    <input type="email" id="contacto_denunciante" name="contacto_denunciante" placeholder="Tu correo electrónico o teléfono">
+                </div>
+                
+                <button type="submit" class="btn-submit">Enviar y Registrar Denuncia</button>
+                <div class="confirm-text" id="denuncia-status" style="display: none; color: #4CAF50; text-align: center; font-weight: bold; margin-top: 15px;"></div>
+            </form>
+        </div>
+
+        <div class="historial-container">
+            <h3>Historial de Denuncias Enviadas (Local)</h3>
+            <p>Estos son los reportes que has registrado en este dispositivo. Puedes eliminarlos individualmente.</p>
+            <button class="btn-limpiar" id="btn-limpiar-historial">Borrar TODO el Historial</button>
+            <ul id="historial-list">
+                </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 <strong>Adopta con Amor</strong> | Un proyecto de protección animal.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('denuncia-form');
+            const historialList = document.getElementById('historial-list');
+            const btnLimpiar = document.getElementById('btn-limpiar-historial');
+            const denunciaStatus = document.getElementById('denuncia-status');
+
+            // --- FUNCIONES DE LOCAL STORAGE ---
+
+            function obtenerDenuncias() {
+                const denuncias = localStorage.getItem('denunciasAdoptaAmor');
+                return denuncias ? JSON.parse(denuncias) : [];
+            }
+
+            function guardarDenuncias(denuncias) {
+                localStorage.setItem('denunciasAdoptaAmor', JSON.stringify(denuncias));
+            }
+            
+            // Función para eliminar un ítem individual
+            function eliminarDenuncia(timestampToDelete) {
+                let denuncias = obtenerDenuncias();
+                // Filtramos la lista para quedarnos solo con las denuncias que NO coinciden con el timestamp
+                const nuevoHistorial = denuncias.filter(denuncia => denuncia.timestamp !== timestampToDelete);
+                
+                guardarDenuncias(nuevoHistorial);
+                renderizarHistorial(); // Volvemos a dibujar la lista actualizada
+                
+                alert('Denuncia eliminada del historial local.');
+            }
+
+            function renderizarHistorial() {
+                const denuncias = obtenerDenuncias();
+                historialList.innerHTML = '';
+
+                if (denuncias.length === 0) {
+                    historialList.innerHTML = '<li>No hay denuncias registradas en este navegador.</li>';
+                    btnLimpiar.style.display = 'none';
+                    return;
+                }
+                
+                btnLimpiar.style.display = 'block';
+
+                // Mostrar el historial del más reciente al más antiguo
+                [...denuncias].reverse().forEach(d => { 
+                    const listItem = document.createElement('li');
+                    
+                    const fecha = d.timestamp ? new Date(d.timestamp).toLocaleDateString() : 'N/A';
+                    const hora = d.timestamp ? new Date(d.timestamp).toLocaleTimeString() : 'N/A';
+
+                    // Contenedor de la información
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'denuncia-info';
+                    infoDiv.innerHTML = `
+                        <span class="denuncia-tipo">[${d.tipo_maltrato}]</span>
+                        <strong>Lugar:</strong> ${d.direccion_incidente}
+                        <p style="margin: 5px 0 0; color: #333;"><strong>Detalle:</strong> ${d.descripcion.substring(0, 100)}...</p>
+                        <span class="denuncia-time">📅 <strong>Fecha:</strong>${fecha} | ⏰ <strong>Hora de Registro:</strong> ${hora}</span>
+                        ${d.contacto_denunciante ? `<span class="denuncia-time">Contacto: ${d.contacto_denunciante}</span>` : ''}
+                    `;
+
+                    // Botón de eliminar
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'btn-eliminar-individual';
+                    deleteButton.textContent = 'Borrar Local';
+                    deleteButton.dataset.timestamp = d.timestamp; 
+                    
+                    deleteButton.addEventListener('click', (e) => {
+                        const ts = parseInt(e.target.dataset.timestamp);
+                        if (confirm(`¿Seguro que quieres borrar este registro de tu historial local?`)) {
+                             eliminarDenuncia(ts);
+                        }
+                    });
+
+                    listItem.appendChild(infoDiv);
+                    listItem.appendChild(deleteButton);
+                    historialList.appendChild(listItem);
+                });
+            }
+
+            // --- MANEJO DEL ENVÍO DEL FORMULARIO ---
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const tipo = document.getElementById('tipo_maltrato').value;
+                if (tipo === '') {
+                     alert('Por favor, selecciona un tipo de maltrato.');
+                     return;
+                }
+                
+                const timestampActual = new Date().getTime(); 
+
+                const nuevaDenuncia = {
+                    timestamp: timestampActual, 
+                    tipo_maltrato: tipo,
+                    direccion_incidente: document.getElementById('direccion_incidente').value,
+                    descripcion: document.getElementById('descripcion').value,
+                    contacto_denunciante: document.getElementById('contacto_denunciante').value,
+                };
+
+                const denuncias = obtenerDenuncias();
+                denuncias.push(nuevaDenuncia);
+                guardarDenuncias(denuncias);
+
+                // Mostrar mensaje de éxito y limpiar formulario
+                denunciaStatus.textContent = '✅ ¡Denuncia registrada localmente! Se ha notificado a nuestro equipo.';
+                denunciaStatus.style.display = 'block';
+                
+                form.reset();
+                renderizarHistorial();
+
+                // Ocultar mensaje después de 5 segundos
+                setTimeout(() => {
+                    denunciaStatus.style.display = 'none';
+                }, 5000);
+            });
+
+            // --- MANEJO DEL BOTÓN DE LIMPIAR HISTORIAL COMPLETO ---
+            btnLimpiar.addEventListener('click', () => {
+                if (confirm('ADVERTENCIA: ¿Estás seguro de que quieres borrar PERMANENTEMENTE TODO el historial de denuncias guardado en este navegador?')) {
+                    localStorage.removeItem('denunciasAdoptaAmor');
+                    renderizarHistorial();
+                    alert('Historial de denuncias borrado exitosamente.');
+                }
+            });
+
+            renderizarHistorial();
+        });
+    </script>
+</body>
+</html>
